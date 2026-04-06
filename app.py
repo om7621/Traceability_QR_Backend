@@ -4,18 +4,29 @@ from typing import Optional, List
 import pyodbc
 import msal
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# Add this block after creating 'app'
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://yellow-coast-0ea82d100.7.azurestaticapps.net"],  # Replace "*" with your actual Azure Static Web App URL for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # --- Configuration ---
-# Replace with your actual Azure SQL details
 DB_CONNECTION_STRING = (
     "Driver={ODBC Driver 18 for SQL Server};"
-    "Server=tcp:your-server.database.windows.net,1433;"
-    "Database=your-db;"
-    "Uid=your-username;"
-    "Pwd=your-password;"
-    "Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+    "Server=tcp:newen-server.database.windows.net,1433;"
+    "Database=newen_traceability_db;"
+    "UID=omsingh;"
+    "PWD=Singhisblink7621;"
+    "Encrypt=yes;"
+    "TrustServerCertificate=yes;"
+    "Connection Timeout=30;"
 )
 
 # Azure AD Config (for token verification)
@@ -35,7 +46,7 @@ class PanelResponse(BaseModel):
     panel_sr_no: str
     startDate: str
     verifiedBy: str
-    companyName: str = "NewEn"
+    companyName: str = "Newen Systems Pvt Ltd"
     additionalData: Optional[dict] = None
     components: Optional[List[Component]] = None
 
