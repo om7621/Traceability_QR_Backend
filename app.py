@@ -42,10 +42,21 @@ class PanelResponse(BaseModel):
     verifiedBy: str
     companyName: str = "Newen Systems Pvt Ltd"
     status: str
-    productType: str
-    preparedBy: Optional[str] = None
+    productType: strpreparedBy: Optional[str] = None
     remarks: Optional[str] = None
     components: Optional[List[ComponentModel]] = None
+    referenceDocument: Optional[str] = None # Added this
+# ... inside get_panel_details ...
+        response = PanelResponse(
+            projectName=row.project_name or "N/A",
+            panel_sr_no=row.panel_serial,
+            startDate=str(row.start_date) if row.start_date else "N/A",
+            verifiedBy=row.verified_by or "N/A",
+            status=row.status or "Unknown",
+            productType=row.product_type or "N/A",
+            referenceDocument=row.reference_document # Added this
+        )
+
 
 # --- Helper Functions ---
 def get_db_connection():
